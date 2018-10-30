@@ -134,6 +134,7 @@ Next, the Deblur workflow is applied using the ``qiime deblur denoise-16S`` meth
      --i-demultiplexed-seqs demux-filtered.qza \
      --p-trim-length 150 \
      --p-sample-stats \
+     --p-jobs-to-start 4 \
      --o-representative-sequences rep-seqs-deblur.qza \
      --o-table table-deblur.qza \
      --o-stats deblur-stats.qza
@@ -176,6 +177,7 @@ In the ``demux.qzv`` quality plots, we see that the quality of the initial bases
     --i-demultiplexed-seqs demux.qza \
     --p-trim-left 0 \
     --p-trunc-len 150 \
+    --p-n-threads 4 \
     --o-representative-sequences rep-seqs-dada2.qza \
     --o-table table-dada2.qza \
     --o-denoising-stats stats-dada2.qza
@@ -224,6 +226,7 @@ The pipeline uses the ``sepp`` program will create a rooted tree with the new se
 
    qiime fragment-insertion sepp \
      --i-representative-sequences rep-seqs.qza \
+     --p-threads 4 \
      --o-tree insertion-tree.qza \
      --o-placements insertion-placements.qza
 
@@ -303,6 +306,7 @@ An important parameter that needs to be provided to this script is ``--p-samplin
      --i-table table.qza \
      --m-metadata-file sample_metadata.tsv \
      --p-sampling-depth 881 \
+     --p-n-jobs 4 \
      --output-dir core-metrics-results
 
 Here we set the ``--p-sampling-depth`` parameter to 881. This will allow us to retain most of our samples. The samples that has fewer sequences will be dropped from the ``core-metrics-phylogenetic`` analyses and anything that uses these results.
@@ -399,6 +403,7 @@ In the next sections we'll begin to explore the taxonomic composition of the sam
    qiime feature-classifier classify-sklearn \
      --i-classifier gg-13-8-99-515-806-nb-classifier.qza \
      --i-reads rep-seqs.qza \
+     --p-n-jobs 2 \
      --o-classification taxonomy.qza
 
    qiime metadata tabulate \
