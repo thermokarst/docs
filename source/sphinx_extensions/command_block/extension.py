@@ -75,6 +75,13 @@ class CommandBlockDirective(docutils.parsers.rst.Directive):
     def run(self):
         command_mode = True if self.name == 'command-block' else False
         opts = self.options
+        if 'runtime' not in opts:
+            opts['runtime'] = 'shell'
+        if opts['runtime'] not in {'shell', 'python'}:
+            raise sphinx.errors.ExtensionError('Invalid runtime specified (%s'
+                                               '). Please choose `shell` or '
+                                               '`python`, instead.' %
+                                               (opts['runtime'],))
         download_opts = [k in opts for k in ['url', 'saveas']]
 
         if command_mode:
